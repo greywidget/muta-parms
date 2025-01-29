@@ -39,7 +39,9 @@ When considering variables in Python it is a good idea to differentiate between 
 5. The list that `nums` is pointing to has been modified, but the `id` is the same because lists are `mutable`.
 
 ## Python passes parameters by Reference
-Python passes parameters to function by Reference - also referred to as *call by sharing*. Consider this simple case where a global variable is passed into a function:
+Python passes parameters to functions by Reference - also referred to as *call by sharing*. This results in multiple names bound to the same object.  
+
+Consider this simple case where a global variable is passed into a function:
 
 ```
 FAB_FOUR = ["John", "Paul", "George", "Ringo"]
