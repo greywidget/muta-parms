@@ -82,7 +82,7 @@ Before: ['John', 'Paul', 'George', 'Ringo']
  After: ['George', 'John', 'Paul', 'Ringo']
 ```
 
-Which shows that our global variable FAB_FOUR has indeed been modified. This is because our function variable `members` is really just an alias for the global variable `FAB_FOUR` - they point to the same object. 
+Which shows that our global variable FAB_FOUR has indeed been modified. This is because our function variable `members` is really just an alias for the global variable `FAB_FOUR` - they both point to the same object. 
 
 The excellent site [Python Tutor](https://pythontutor.com/) can be used to provide a nice visualisation:
 
@@ -96,7 +96,7 @@ At the very least, you should consider carefully whether the caller expects the 
 
 If you want to protect your code from such *side effects*, consider using immutable types where possible/practical. 
 
-If it is not clear to you whether it is safe to modify a passed mutable parameter - create a copy of the parameter and modify that instead. Comprehensions provide a nice pythonic way to create new objects as does the `copy` module with its `copy`, and `deepcopy` functions.
+If it is not clear to you whether it is safe to modify a passed mutable parameter - create a copy of the parameter and modify that instead. Comprehensions provide a nice pythonic way to create new objects as does the [copy module](https://docs.python.org/3/library/copy.html) with its `copy` and `deepcopy` functions.
 
 
 ## Mutable Types as Parameter Defaults
@@ -115,7 +115,9 @@ For example, when we call `members.sort()` in our code above, the `sort` method 
 ```
 The default values are evaluated once, at the point of function definition in the defining scope.
 
-Using a Mutable Type as a paramater default should be avoided if possible because it can lead to unexpected and inconsistent behaviour. Consider the following code:
+### Using a Mutable Type as a paramater default should be avoided if possible because it can lead to unexpected and inconsistent behaviour.
+
+Consider the following code:
 
 ```
 def enroll_student(name, students=[]):
@@ -160,9 +162,9 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-1. Print the `id` of local variable `students`
-2. Print the `enroll_student` parameter default values
-3. Print the `id` of `students` default value
+1. `id` of function local variable `students`
+2. Function `enroll_student` parameter default values
+3. `id` of `students` default value
 
 Running this code produces the following output:
 ```
