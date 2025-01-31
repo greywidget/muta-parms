@@ -100,9 +100,9 @@ If it is not clear to you whether it is safe to modify a passed mutable paramete
 
 
 ## Mutable Types as Parameter Defaults
-Python allows us to provide default values for function parameters - making them optional. 
+Python allows us to provide default values for function parameters - making them optional.  
 
-For example, when we call `members.sort()` in our code aboud, the `sort` method has an optional keyword argument `reverse` which defaults to `False`. We can pass it with the value `True` to override the default behaviour:
+For example, when we call `members.sort()` in our code above, the `sort` method has an optional keyword argument `reverse` which defaults to `False`. We can pass it with the value `True` to override the default behaviour:
 
 ```
 >>> FAB_FOUR = ["John", "Paul", "George", "Ringo"]
@@ -113,6 +113,7 @@ For example, when we call `members.sort()` in our code aboud, the `sort` method 
 >>> FAB_FOUR
 ['Ringo', 'Paul', 'John', 'George']
 ```
+The default values are evaluated once, at the point of function definition in the defining scope.
 
 Using a Mutable Type as a paramater default should be avoided if possible because it can lead to unexpected and inconsistent behaviour. Consider the following code:
 
@@ -140,20 +141,20 @@ Running this code produces the following output:
 ```
 Our function seems to be retaining information from previous calls.
 
-This is because default values are only evaluated once and are stored in function attribute `__defaults__`.  
+This is because default values are stored in function attribute `__defaults__` and if mutable, can be changed by the function code.
 
 Lets modify our code to show this:
 ```
 def enroll_student(name, students=[]):
-    print(f"ID of students: {id(students)}")  # 1
+    print(f"ID of students: {id(students)}")  #1
     students.append(name)
     return students
 
 
 def main():
     enroll_student("Biffa")
-    print(f"Function Default Values: {enroll_student.__defaults__}")  # 2
-    print(f"ID of default_students: {id(enroll_student.__defaults__[0])}")  # 3
+    print(f"Function Default Values: {enroll_student.__defaults__}")  #2
+    print(f"ID of default_students: {id(enroll_student.__defaults__[0])}")  #3
 
 
 if __name__ == "__main__":
@@ -170,7 +171,7 @@ Function Default Values: (['Biffa'],)
 ID of default_students: 2667038141888
 ```
 
-This shows that our local `students` variable its *default value* both point to the same object. Modifying the local variable will cause the default value to be updated!
+This shows that our local `students` variable and its *default value* both point to the same object. Modifying the local variable will cause the default value to be updated on the function object!
 
 To prevent this behaviour, we can specify `None` as the default value, and handle that case inside our code. `None` is immutable. Here is our new version of the function:
 
@@ -182,7 +183,13 @@ def enroll_student(name, students=None):
     return students
 ```
 
-Looking at the output, we can see that the immutable `None` is stored as the function default and our code works consistently:
+Looking at the output, we can see that the immutable `None` is stored as the function default for `students` and is no longer coupled to our local `students` variable:
+```
+ID of students: 1545913462208
+Function Default Values: (None,)
+ID of default_students: 140713967338128
+```
+And our code works consistently:
 
 ```
 def main():

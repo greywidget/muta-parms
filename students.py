@@ -6,14 +6,15 @@ pretty.install()
 def enroll_student(name, students=None):
     if students is None:
         students = []
+    print(f"ID of students: {id(students)}")
     students.append(name)
     return students
 
 
 def main():
-    print(enroll_student("Biffa", students=["Spadger", "Morris"]))
-    print(enroll_student("Moose"))
-    print(enroll_student("Cheeseman"))
+    enroll_student("Moose")
+    print(f"Function Default Values: {enroll_student.__defaults__}")
+    print(f"ID of default_students: {id(enroll_student.__defaults__[0])}")
 
 
 if __name__ == "__main__":
